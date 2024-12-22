@@ -1,9 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+)
 
 func main() {
-	list := []int{2, 4, 1, 7, 10}
+	list := []int{2, 4, 1, 7, 10, 12, 15, 16, 20, 21, 3}
 
 	orderedList := QuickSort(list)
 
@@ -15,12 +18,18 @@ func QuickSort(list []int) []int {
 		return list
 	}
 
-	pivot := list[0]
+	// Escolhendo um índice aleatório como pivô
+	pivotIndex := rand.Intn(len(list))
+	pivot := list[pivotIndex]
+
+	// Remover o pivô da lista
+	list = append(list[:pivotIndex], list[pivotIndex+1:]...)
+
 	var smaller []int
 	var bigger []int
 
-	for i := range list[1:] {
-		number := list[i+1]
+	// Particionando os elementos em relação ao pivô
+	for _, number := range list {
 		if number <= pivot {
 			smaller = append(smaller, number)
 		} else {
@@ -28,5 +37,6 @@ func QuickSort(list []int) []int {
 		}
 	}
 
+	// Recursão para ordenar as partições
 	return append(append(QuickSort(smaller), pivot), QuickSort(bigger)...)
 }
